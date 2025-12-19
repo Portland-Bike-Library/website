@@ -53,11 +53,34 @@ export const bikes: Bike[] = [
       "Aluminum kickstand",
       "Standlight function when stopped"
     ]
+  },
+  {
+    id: "vvolt-slice-lite",
+    name: "Vvolt Slice Lite",
+    type: "Utility E-Bike",
+    size: "Adult (adjustable, step-through frame)",
+    description: "A lightweight utility e-bike with mixed wheel sizes for better cargo handling. Class II pedal-assist with throttle, Gates belt drive, and front cargo module.",
+    image: "/bikes/vvolt-slice-lite.webp",
+    available: true,
+    maxLoanPeriod: "2 weeks",
+    features: [
+      "Class II pedal assist (20 mph)",
+      "350W motor with 500Wh battery",
+      "20-55 mile range",
+      "Gates belt drive (no chain)",
+      "Hydraulic disc brakes",
+      "Step-through frame (52 lbs)",
+      "Front cargo module (40 lb capacity)",
+      "Torque, cadence & speed sensors",
+      "Integrated front & rear lights",
+      "Mixed wheels (20\" front / 26\" rear)"
+    ]
   }
 ];
 
 export const bikeTypes = [
   "All Types",
   "Cargo E-Bike",
+  "Utility E-Bike",
   "Kids Bike"
 ];
