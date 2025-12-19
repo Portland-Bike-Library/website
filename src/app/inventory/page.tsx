@@ -7,8 +7,12 @@ import Link from "next/link";
 function BikeCard({ bike }: { bike: Bike }) {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-      <div className="h-48 bg-gray-200 flex items-center justify-center">
-        <span className="text-6xl">&#128690;</span>
+      <div className="h-48 bg-gray-200">
+        <img
+          src={bike.image}
+          alt={bike.name}
+          className="w-full h-full object-cover"
+        />
       </div>
       <div className="p-6">
         <div className="flex justify-between items-start mb-2">
@@ -23,8 +27,9 @@ function BikeCard({ bike }: { bike: Bike }) {
             {bike.available ? "Available" : "Checked Out"}
           </span>
         </div>
-        <p className="text-green-600 font-medium text-sm mb-2">{bike.type}</p>
-        <p className="text-gray-500 text-sm mb-3">{bike.size}</p>
+        <p className="text-green-600 font-medium text-sm mb-1">{bike.type}</p>
+        <p className="text-gray-500 text-sm mb-1">{bike.size}</p>
+        <p className="text-amber-600 text-sm mb-3 font-medium">Max loan: {bike.maxLoanPeriod}</p>
         <p className="text-gray-600 text-sm mb-4">{bike.description}</p>
         <div className="flex flex-wrap gap-2">
           {bike.features.map((feature, index) => (

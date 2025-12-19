@@ -7,67 +7,57 @@ export interface Bike {
   image: string;
   available: boolean;
   features: string[];
+  maxLoanPeriod: string;
 }
 
-// Sample inventory - replace with real bikes as they're acquired
 export const bikes: Bike[] = [
   {
-    id: "bike-001",
-    name: "Family Cruiser",
-    type: "Adult Cruiser",
-    size: "Adult (5'4\" - 6'0\")",
-    description: "A comfortable cruiser bike perfect for neighborhood rides. Features an upright seating position and easy-to-use coaster brake.",
-    image: "/bikes/cruiser.jpg",
+    id: "xtracycle-rfa",
+    name: "Xtracycle RFA",
+    type: "Cargo E-Bike",
+    size: "Adult (5'3\" - 6'3\")",
+    description: "A versatile cargo e-bike with step-through frame, perfect for hauling kids on the back. Class III pedal-assist with a top speed of 20 mph and 30-60 mile battery range.",
+    image: "/bikes/xtracycle-rfa.jpg",
     available: true,
-    features: ["Coaster brake", "Basket included", "Kickstand", "Bell"]
+    maxLoanPeriod: "2 weeks",
+    features: [
+      "Class III pedal assist (20 mph)",
+      "30-60 mile battery range",
+      "Step-through frame",
+      "Hydraulic disc brakes",
+      "Integrated front & rear lights",
+      "Hooptie rear safety rails",
+      "Cushioned rear seating",
+      "Front rack with porter-pack bag",
+      "Center kickstand",
+      "Front & rear fenders"
+    ]
   },
   {
-    id: "bike-002",
-    name: "Youth Explorer",
-    type: "Youth Mountain Bike",
-    size: "Youth (4'2\" - 4'10\")",
-    description: "A durable youth bike with 20\" wheels, great for kids learning to ride independently.",
-    image: "/bikes/youth.jpg",
+    id: "woom-now-6",
+    name: "Woom Now 6",
+    type: "Kids Bike",
+    size: "Kids (26\" rear / 20\" front)",
+    description: "A premium kids bike with innovative mixed wheel sizes for stable handling and an upright riding position. Features a frame-mounted front rack perfect for school bags.",
+    image: "/bikes/woom-now-6.jpg",
     available: true,
-    features: ["Hand brakes", "6-speed gears", "Adjustable seat", "Reflectors"]
-  },
-  {
-    id: "bike-003",
-    name: "Cargo Hauler",
-    type: "Cargo Bike",
-    size: "Adult (5'2\" - 6'2\")",
-    description: "A front-loading cargo bike perfect for carrying kids or groceries. Electric-assist available.",
-    image: "/bikes/cargo.jpg",
-    available: false,
-    features: ["Front cargo box", "Electric assist", "Hydraulic brakes", "Lights included"]
-  },
-  {
-    id: "bike-004",
-    name: "Starter Balance",
-    type: "Balance Bike",
-    size: "Toddler (2-5 years)",
-    description: "Help your little one learn balance before pedaling. Lightweight and easy to handle.",
-    image: "/bikes/balance.jpg",
-    available: true,
-    features: ["No pedals", "Adjustable seat", "Lightweight frame", "Soft grips"]
-  },
-  {
-    id: "bike-005",
-    name: "Commuter Classic",
-    type: "Hybrid Bike",
-    size: "Adult (5'6\" - 6'2\")",
-    description: "A versatile hybrid bike suitable for commuting or recreational rides around the neighborhood.",
-    image: "/bikes/hybrid.jpg",
-    available: true,
-    features: ["21-speed", "Fenders", "Rack compatible", "Puncture-resistant tires"]
+    maxLoanPeriod: "1 month",
+    features: [
+      "8-speed gears",
+      "Lightweight aluminum frame",
+      "Dynamo-powered LED lights",
+      "Front rack (22 lb capacity)",
+      "Wide fenders",
+      "Twist-grip bell",
+      "Anti-slip pedals",
+      "Aluminum kickstand",
+      "Standlight function when stopped"
+    ]
   }
 ];
 
 export const bikeTypes = [
   "All Types",
-  "Adult Cruiser",
-  "Youth Mountain Bike",
-  "Cargo Bike",
-  "Balance Bike",
-  "Hybrid Bike"
+  "Cargo E-Bike",
+  "Kids Bike"
 ];
