@@ -31,6 +31,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
         <AuthProvider>
+          <div className="bg-yellow-500 text-black text-center py-2 font-semibold">
+            Coming Soon
+          </div>
           <Navigation />
           <main className="flex-grow">{children}</main>
           <Footer />
