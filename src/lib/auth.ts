@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { createUser, getUserByEmail, getUserById, updateUserWaiver, updateUserVideoWatched, createSignInCode, verifySignInCode } from "./store";
-import { User } from "./types";
+import { User, MinorOnWaiver } from "./types";
 
 const SESSION_COOKIE = "pbl_session";
 
@@ -94,18 +94,24 @@ export async function getCurrentUser(): Promise<User | null> {
 }
 
 export async function signWaiver(
-  signature: string
+  printedName: string,
+  signature: string,
+  minor?: MinorOnWaiver
 ): Promise<{ success: boolean; error?: string; user?: User }> {
   const user = await getCurrentUser();
   if (!user) {
     return { success: false, error: "You must be signed in to sign the waiver" };
   }
 
+  if (!user.hasWatchedVideo) {
+    return { success: false, error: "Please complete the safety orientation before signing the waiver." };
+  }
+
   if (user.hasSignedWaiver) {
     return { success: false, error: "You have already signed the waiver" };
   }
 
-  const updatedUser = updateUserWaiver(user.id, signature);
+  const updatedUser = updateUserWaiver(user.id, printedName, signature, minor);
   if (!updatedUser) {
     return { success: false, error: "Failed to save waiver signature" };
   }
@@ -117,10 +123,6 @@ export async function markVideoWatched(): Promise<{ success: boolean; error?: st
   const user = await getCurrentUser();
   if (!user) {
     return { success: false, error: "You must be signed in" };
-  }
-
-  if (!user.hasSignedWaiver) {
-    return { success: false, error: "You must sign the waiver before watching the video" };
   }
 
   if (user.hasWatchedVideo) {

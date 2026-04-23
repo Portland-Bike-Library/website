@@ -99,37 +99,7 @@ export default function AccountPage() {
 
           {/* Steps */}
           <div className="space-y-3">
-            {/* Step 1: Waiver */}
-            <div className={`p-4 rounded-lg ${user.hasSignedWaiver ? "bg-green-50" : "bg-gray-50"}`}>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="text-xl">
-                    {user.hasSignedWaiver ? "✅" : "⚪"}
-                  </span>
-                  <div>
-                    <p className={`font-medium ${user.hasSignedWaiver ? "text-green-800" : "text-gray-800"}`}>
-                      Step 1: Sign Waiver
-                    </p>
-                    {user.hasSignedWaiver && (
-                      <p className="text-green-700 text-sm">
-                        Signed on {user.waiverSignedAt ? new Date(user.waiverSignedAt).toLocaleDateString() : "record"}
-                        {" "}&bull; <span className="font-serif italic">{user.waiverSignature}</span>
-                      </p>
-                    )}
-                  </div>
-                </div>
-                {!user.hasSignedWaiver && (
-                  <Link
-                    href="/waiver"
-                    className="bg-green-700 text-white px-4 py-1 rounded-full text-sm font-medium hover:bg-green-600 transition-colors"
-                  >
-                    Sign Now
-                  </Link>
-                )}
-              </div>
-            </div>
-
-            {/* Step 2: Video */}
+            {/* Step 1: Video */}
             <div className={`p-4 rounded-lg ${user.hasWatchedVideo ? "bg-green-50" : "bg-gray-50"}`}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -138,24 +108,57 @@ export default function AccountPage() {
                   </span>
                   <div>
                     <p className={`font-medium ${user.hasWatchedVideo ? "text-green-800" : "text-gray-800"}`}>
-                      Step 2: Watch Safety Video
+                      Step 1: Watch Safety Video
                     </p>
                     {user.hasWatchedVideo && (
                       <p className="text-green-700 text-sm">
                         Completed on {user.videoWatchedAt ? new Date(user.videoWatchedAt).toLocaleDateString() : "record"}
                       </p>
                     )}
-                    {!user.hasSignedWaiver && !user.hasWatchedVideo && (
-                      <p className="text-gray-500 text-sm">Complete Step 1 first</p>
-                    )}
                   </div>
                 </div>
-                {user.hasSignedWaiver && !user.hasWatchedVideo && (
+                {!user.hasWatchedVideo && (
                   <Link
                     href="/learn"
                     className="bg-green-700 text-white px-4 py-1 rounded-full text-sm font-medium hover:bg-green-600 transition-colors"
                   >
                     Watch Now
+                  </Link>
+                )}
+              </div>
+            </div>
+
+            {/* Step 2: Waiver */}
+            <div className={`p-4 rounded-lg ${user.hasSignedWaiver ? "bg-green-50" : "bg-gray-50"}`}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <span className="text-xl">
+                    {user.hasSignedWaiver ? "✅" : "⚪"}
+                  </span>
+                  <div>
+                    <p className={`font-medium ${user.hasSignedWaiver ? "text-green-800" : "text-gray-800"}`}>
+                      Step 2: Sign Waiver
+                    </p>
+                    {user.hasSignedWaiver && (
+                      <p className="text-green-700 text-sm">
+                        Signed on {user.waiverSignedAt ? new Date(user.waiverSignedAt).toLocaleDateString() : "record"}
+                        {" "}&bull; <span className="font-serif italic">{user.waiverSignature}</span>
+                        {user.waiverMinor && (
+                          <> &bull; Also covers {user.waiverMinor.name}</>
+                        )}
+                      </p>
+                    )}
+                    {!user.hasWatchedVideo && !user.hasSignedWaiver && (
+                      <p className="text-gray-500 text-sm">Complete Step 1 first</p>
+                    )}
+                  </div>
+                </div>
+                {user.hasWatchedVideo && !user.hasSignedWaiver && (
+                  <Link
+                    href="/waiver"
+                    className="bg-green-700 text-white px-4 py-1 rounded-full text-sm font-medium hover:bg-green-600 transition-colors"
+                  >
+                    Sign Now
                   </Link>
                 )}
               </div>

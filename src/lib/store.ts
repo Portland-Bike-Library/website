@@ -1,7 +1,7 @@
 // Simple in-memory store for demo purposes
 // In production, replace with a real database (e.g., PostgreSQL, MongoDB)
 
-import { User, WaiverSignature } from "./types";
+import { User, WaiverSignature, MinorOnWaiver } from "./types";
 
 interface SignInCode {
   code: string;
@@ -110,19 +110,25 @@ export function getUserById(id: string): User | undefined {
 
 export function updateUserWaiver(
   userId: string,
-  signature: string
+  printedName: string,
+  signature: string,
+  minor?: MinorOnWaiver
 ): User | undefined {
   const user = globalStore.users.get(userId);
   if (user) {
+    const now = new Date();
     user.hasSignedWaiver = true;
-    user.waiverSignedAt = new Date();
+    user.waiverSignedAt = now;
+    user.waiverPrintedName = printedName;
     user.waiverSignature = signature;
+    user.waiverMinor = minor;
 
-    // Also store in waivers collection
     globalStore.waivers.set(userId, {
       userId,
+      printedName,
       signature,
-      signedAt: new Date(),
+      signedAt: now,
+      minor,
     });
 
     return user;

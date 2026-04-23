@@ -17,7 +17,7 @@ export default function Home() {
               Browse Bikes
             </Link>
             <Link
-              href="/waiver"
+              href="/auth/signup"
               className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-green-700 transition-colors"
             >
               Get Started

@@ -9,8 +9,12 @@ import { waiverContent } from "@/content/waiver";
 export default function WaiverPage() {
   const router = useRouter();
   const { user, loading, refreshUser } = useAuth();
+  const [printedName, setPrintedName] = useState("");
   const [signature, setSignature] = useState("");
   const [agreed, setAgreed] = useState(false);
+  const [includeMinor, setIncludeMinor] = useState(false);
+  const [minorName, setMinorName] = useState("");
+  const [minorDob, setMinorDob] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
@@ -23,9 +27,25 @@ export default function WaiverPage() {
       return;
     }
 
+    if (printedName.trim().length < 2) {
+      setError("Please enter your printed legal name");
+      return;
+    }
+
     if (signature.trim().length < 2) {
       setError("Please enter your full name as your signature");
       return;
+    }
+
+    if (includeMinor) {
+      if (minorName.trim().length < 2) {
+        setError("Please enter the minor child's name");
+        return;
+      }
+      if (!minorDob) {
+        setError("Please enter the minor child's date of birth");
+        return;
+      }
     }
 
     setSubmitting(true);
@@ -34,14 +54,20 @@ export default function WaiverPage() {
       const res = await fetch("/api/waiver/sign", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ signature: signature.trim() }),
+        body: JSON.stringify({
+          printedName: printedName.trim(),
+          signature: signature.trim(),
+          minor: includeMinor
+            ? { name: minorName.trim(), dateOfBirth: minorDob }
+            : undefined,
+        }),
       });
 
       const data = await res.json();
 
       if (res.ok) {
         await refreshUser();
-        router.push("/learn");
+        router.push("/inventory");
       } else {
         setError(data.error || "Failed to sign waiver");
       }
@@ -110,35 +136,33 @@ export default function WaiverPage() {
     );
   }
 
-  // Already signed waiver
-  if (user.hasSignedWaiver) {
-    // Check if video still needs to be watched
-    if (!user.hasWatchedVideo) {
-      return (
-        <div className="py-12">
-          <div className="max-w-4xl mx-auto px-4">
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-8 text-center">
-              <div className="text-5xl mb-4">&#9989;</div>
-              <h1 className="text-3xl font-bold text-blue-800 mb-4">
-                Waiver Signed - One More Step!
-              </h1>
-              <p className="text-blue-700 mb-6">
-                Great! You&apos;ve signed the waiver. Now please watch our safety video
-                to complete your registration.
-              </p>
-              <Link
-                href="/learn"
-                className="bg-blue-700 text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-600 transition-colors"
-              >
-                Watch Safety Video
-              </Link>
-            </div>
+  // Signed in but hasn't completed orientation yet
+  if (!user.hasWatchedVideo) {
+    return (
+      <div className="py-12">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-8 text-center">
+            <h1 className="text-3xl font-bold text-yellow-800 mb-4">
+              Complete Orientation First
+            </h1>
+            <p className="text-yellow-700 mb-6">
+              The waiver asks you to confirm you have participated in a Portland Bike
+              Library orientation. Please watch the safety video before signing.
+            </p>
+            <Link
+              href="/learn"
+              className="bg-green-700 text-white px-8 py-3 rounded-full font-semibold hover:bg-green-600 transition-colors"
+            >
+              Watch Safety Video
+            </Link>
           </div>
         </div>
-      );
-    }
+      </div>
+    );
+  }
 
-    // Fully completed
+  // Already signed waiver
+  if (user.hasSignedWaiver) {
     return (
       <div className="py-12">
         <div className="max-w-4xl mx-auto px-4">
@@ -154,9 +178,15 @@ export default function WaiverPage() {
                 : "record"}
               .
             </p>
-            <p className="text-green-600 mb-6">
-              Your signature: <strong>{user.waiverSignature}</strong>
+            <p className="text-green-600 mb-2">
+              Signature: <strong>{user.waiverSignature}</strong>
             </p>
+            {user.waiverMinor && (
+              <p className="text-green-600 mb-6">
+                Also covers: <strong>{user.waiverMinor.name}</strong> (DOB{" "}
+                {user.waiverMinor.dateOfBirth})
+              </p>
+            )}
             <div className="flex gap-4 justify-center">
               <Link
                 href="/inventory"
@@ -196,12 +226,8 @@ export default function WaiverPage() {
             ))}
           </ol>
 
-          <div className="bg-gray-50 p-4 rounded-lg mb-6">
+          <div className="bg-gray-50 p-4 rounded-lg">
             <p className="text-gray-700 font-medium">{waiverContent.acknowledgment}</p>
-          </div>
-
-          <div className="bg-yellow-50 p-4 rounded-lg">
-            <p className="text-yellow-800 text-sm">{waiverContent.parentGuardianNotice}</p>
           </div>
         </div>
 
@@ -232,8 +258,23 @@ export default function WaiverPage() {
           </div>
 
           <div className="mb-6">
+            <label htmlFor="printedName" className="block text-sm font-medium text-gray-700 mb-2">
+              Printed legal name
+            </label>
+            <input
+              type="text"
+              id="printedName"
+              value={printedName}
+              onChange={(e) => setPrintedName(e.target.value)}
+              required
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+              placeholder="Your Full Legal Name"
+            />
+          </div>
+
+          <div className="mb-6">
             <label htmlFor="signature" className="block text-sm font-medium text-gray-700 mb-2">
-              Type your full legal name as your electronic signature
+              Signature (type your full name)
             </label>
             <input
               type="text"
@@ -242,11 +283,58 @@ export default function WaiverPage() {
               onChange={(e) => setSignature(e.target.value)}
               required
               className="w-full px-4 py-3 border-2 border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500 text-lg font-serif italic"
-              placeholder="Your Full Name"
+              placeholder="Your Signature"
             />
             <p className="text-sm text-gray-500 mt-1">
               Signing as: <strong>{user.name}</strong> ({user.email})
             </p>
+          </div>
+
+          {/* Minor block */}
+          <div className="mb-6 border-t border-gray-200 pt-6">
+            <p className="text-sm text-gray-600 mb-3">{waiverContent.minorNotice}</p>
+            <label className="flex items-start gap-3 cursor-pointer mb-4">
+              <input
+                type="checkbox"
+                checked={includeMinor}
+                onChange={(e) => setIncludeMinor(e.target.checked)}
+                className="mt-1 rounded border-gray-300 text-green-600 focus:ring-green-500"
+              />
+              <span className="text-gray-700">
+                I am completing this waiver on behalf of a minor child, and I take
+                responsibility for their liability and risk as outlined above.
+              </span>
+            </label>
+
+            {includeMinor && (
+              <div className="pl-7 space-y-4">
+                <div>
+                  <label htmlFor="minorName" className="block text-sm font-medium text-gray-700 mb-2">
+                    Minor child&apos;s full name
+                  </label>
+                  <input
+                    type="text"
+                    id="minorName"
+                    value={minorName}
+                    onChange={(e) => setMinorName(e.target.value)}
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+                    placeholder="Child's Full Name"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="minorDob" className="block text-sm font-medium text-gray-700 mb-2">
+                    Date of birth
+                  </label>
+                  <input
+                    type="date"
+                    id="minorDob"
+                    value={minorDob}
+                    onChange={(e) => setMinorDob(e.target.value)}
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+                  />
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="flex items-center justify-between">
@@ -255,7 +343,7 @@ export default function WaiverPage() {
             </p>
             <button
               type="submit"
-              disabled={submitting || !agreed || signature.trim().length < 2}
+              disabled={submitting || !agreed}
               className="bg-green-700 text-white px-8 py-3 rounded-full font-semibold hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {submitting ? "Signing..." : "Sign Waiver"}

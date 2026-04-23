@@ -24,7 +24,7 @@ export default function LearnPage() {
 
       if (res.ok) {
         await refreshUser();
-        router.push("/account");
+        router.push("/waiver");
       } else {
         setError(data.error || "Failed to mark video as complete");
       }
@@ -36,9 +36,9 @@ export default function LearnPage() {
   };
 
   // Determine user status for the video requirement banner
-  const needsWaiver = user && !user.hasSignedWaiver;
-  const needsVideo = user && user.hasSignedWaiver && !user.hasWatchedVideo;
-  const completed = user && user.hasSignedWaiver && user.hasWatchedVideo;
+  const needsVideo = user && !user.hasWatchedVideo;
+  const needsWaiver = user && user.hasWatchedVideo && !user.hasSignedWaiver;
+  const completed = user && user.hasWatchedVideo && user.hasSignedWaiver;
 
   return (
     <div className="py-12">
@@ -54,22 +54,23 @@ export default function LearnPage() {
       {/* Status Banner */}
       {!loading && user && (
         <section className="max-w-4xl mx-auto px-4 mb-8">
-          {needsWaiver && (
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-              <p className="text-yellow-800">
-                <strong>Step 1:</strong> Please{" "}
-                <Link href="/waiver" className="underline font-medium">
-                  sign the waiver
-                </Link>{" "}
-                first, then return here to watch the safety video.
-              </p>
-            </div>
-          )}
           {needsVideo && (
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
               <p className="text-blue-800">
-                <strong>Step 2:</strong> Watch the safety video below and click
-                &quot;Complete Video&quot; when finished.
+                <strong>Step 1:</strong> Watch the safety video below and click
+                &quot;Complete Video&quot; when finished. You&apos;ll sign the waiver
+                next.
+              </p>
+            </div>
+          )}
+          {needsWaiver && (
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <p className="text-yellow-800">
+                <strong>Step 2:</strong> Nice — orientation complete. Now please{" "}
+                <Link href="/waiver" className="underline font-medium">
+                  sign the waiver
+                </Link>
+                .
               </p>
             </div>
           )}
