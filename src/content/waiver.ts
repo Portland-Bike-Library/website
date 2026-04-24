@@ -7,15 +7,15 @@ export const waiverContent = {
   clauses: [
     {
       number: 1,
-      text: `Acknowledge, agree and represent that I understand and know that bicycling is a sport carrying significant risk of personal injury and I know that there are natural and man-made obstacles, hazards, surface and environmental conditions and risks which, in combination with my actions, can cause me severe or fatal injury, I also agree that I, and not the Portland Bike Library or partner organization members, staff, volunteers, contractors and sponsors, are responsible for my safety while I participate in the Portland Bike Library.`
+      text: `Acknowledge, agree and represent that I understand and know that bicycling is a sport carrying significant risk of personal injury and I know that there are natural and man-made obstacles, hazards, surface and environmental conditions and risks which, in combination with my actions, can cause me severe or fatal injury, I also agree that I, and not the Portland Bike Library or partner organization members, staff, volunteers, contractors, and sponsors, am responsible for my safety while I participate in the Portland Bike Library.`
     },
     {
       number: 2,
-      text: `Hereby release, discharge, and covenant not to sue the Portland Bike Library, sponsors, organizers, associated entities and all of their employees, directors, officers or any of the persons connected with the Portland Bike Library (Hereinafter the Releasees), from all liability, claims, demands, losses or damages on my account caused in whole or in part by negligence of the Releasees or otherwise.`
+      text: `Hereby release, discharge, and covenant not to sue the Portland Bike Library, sponsors, organizers, associated entities, and all of their employees, directors, officers or any of the persons connected with the Portland Bike Library, including Quinn Keogh, Aaron Stoertz, and Jake Milligan (Hereinafter the Releasees), from all liability, claims, demands, losses or damages on my account caused in whole or in part by negligence of the Releasees or otherwise.`
     },
     {
       number: 3,
-      text: `Have participated in a Portland Bike Library orientation.`
+      text: `Have participated in a Portland Bike Library orientation and will adhere to safety instruction contained therein while riding a bicycle.`
     },
     {
       number: 4,
