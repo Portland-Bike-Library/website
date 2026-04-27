@@ -31,7 +31,7 @@ function BikeCard({ bike }: { bike: Bike }) {
         <p className="text-gray-500 text-sm mb-1">{bike.size}</p>
         <p className="text-amber-600 text-sm mb-3 font-medium">Max loan: {bike.maxLoanPeriod}</p>
         <p className="text-gray-600 text-sm mb-4">{bike.description}</p>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 mb-5">
           {bike.features.map((feature, index) => (
             <span
               key={index}
@@ -41,6 +41,21 @@ function BikeCard({ bike }: { bike: Bike }) {
             </span>
           ))}
         </div>
+        {bike.available ? (
+          <Link
+            href={`/reserve/${bike.id}`}
+            className="block w-full text-center bg-green-700 text-white px-4 py-2 rounded-full font-medium hover:bg-green-600 transition-colors"
+          >
+            Reserve this Bike
+          </Link>
+        ) : (
+          <button
+            disabled
+            className="block w-full text-center bg-gray-200 text-gray-500 px-4 py-2 rounded-full font-medium cursor-not-allowed"
+          >
+            Currently Checked Out
+          </button>
+        )}
       </div>
     </div>
   );
@@ -129,11 +144,12 @@ export default function InventoryPage() {
       <section className="max-w-6xl mx-auto px-4 mt-12">
         <div className="bg-green-50 rounded-lg p-8 text-center">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">
-            Want to Borrow a Bike?
+            How borrowing works
           </h2>
           <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-            To borrow a bike from our library, you&apos;ll need to create an account,
-            watch our safety video, and sign our waiver. It only takes a few minutes!
+            Pick a bike, fill out the reservation form (it includes our safety waiver),
+            and we&apos;ll email you within 48 hours to confirm pickup. We recommend
+            watching the safety video before your first ride.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -141,12 +157,6 @@ export default function InventoryPage() {
               className="bg-white text-green-700 border-2 border-green-700 px-6 py-2 rounded-full font-medium hover:bg-green-50 transition-colors"
             >
               Watch Safety Video
-            </Link>
-            <Link
-              href="/waiver"
-              className="bg-green-700 text-white px-6 py-2 rounded-full font-medium hover:bg-green-600 transition-colors"
-            >
-              Sign Waiver
             </Link>
           </div>
         </div>

@@ -27,13 +27,35 @@ export interface WaiverSignature {
   userAgent?: string;
 }
 
-export interface BikeCheckout {
+export type ReservationStatus =
+  | "pending"
+  | "approved"
+  | "denied"
+  | "picked_up"
+  | "returned"
+  | "cancelled";
+
+export interface Reservation {
   id: string;
-  bikeId: string;
-  userId: string;
-  checkoutDate: Date;
-  expectedReturnDate: Date;
-  actualReturnDate?: Date;
-  status: 'active' | 'returned' | 'overdue';
-  notes?: string;
+  borrower_name: string;
+  borrower_email: string;
+  borrower_phone: string | null;
+  bike_id: string;
+  bike_name: string;
+  start_date: string;
+  end_date: string;
+  minor_name: string | null;
+  minor_dob: string | null;
+  waiver_printed_name: string;
+  waiver_signature: string;
+  waiver_signed_at: string;
+  waiver_ip: string | null;
+  waiver_user_agent: string | null;
+  status: ReservationStatus;
+  admin_notes: string | null;
+  created_at: string;
+  approved_at: string | null;
+  picked_up_at: string | null;
+  returned_at: string | null;
+  admin_notified_at: string | null;
 }
