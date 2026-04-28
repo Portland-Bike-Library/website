@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { useAuth } from "./AuthProvider";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -15,7 +14,6 @@ const navItems = [
 
 export default function Navigation() {
   const pathname = usePathname();
-  const { user, loading } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -40,26 +38,12 @@ export default function Navigation() {
                 {item.label}
               </Link>
             ))}
-            {!loading && (
-              user ? (
-                <Link
-                  href="/account"
-                  className="flex items-center gap-2 bg-white text-green-700 px-4 py-1 rounded-full hover:bg-green-100 transition-colors font-medium"
-                >
-                  <span className="w-6 h-6 bg-green-600 text-white rounded-full flex items-center justify-center text-sm">
-                    {user.name.charAt(0).toUpperCase()}
-                  </span>
-                  <span className="max-w-[100px] truncate">{user.name.split(" ")[0]}</span>
-                </Link>
-              ) : (
-                <Link
-                  href="/auth/signin"
-                  className="bg-white text-green-700 px-4 py-1 rounded-full hover:bg-green-100 transition-colors font-medium"
-                >
-                  Sign In
-                </Link>
-              )
-            )}
+            <Link
+              href="/inventory"
+              className="bg-white text-green-700 px-4 py-1 rounded-full hover:bg-green-100 transition-colors font-medium"
+            >
+              Reserve a Bike
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -107,25 +91,13 @@ export default function Navigation() {
                 {item.label}
               </Link>
             ))}
-            {!loading && (
-              user ? (
-                <Link
-                  href="/account"
-                  className="block py-2 hover:text-green-200"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  My Account ({user.name.split(" ")[0]})
-                </Link>
-              ) : (
-                <Link
-                  href="/auth/signin"
-                  className="block py-2 hover:text-green-200"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Sign In
-                </Link>
-              )
-            )}
+            <Link
+              href="/inventory"
+              className="block py-2 hover:text-green-200 font-semibold"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Reserve a Bike
+            </Link>
           </div>
         )}
       </div>

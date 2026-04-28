@@ -17,10 +17,10 @@ export default function Home() {
               Browse Bikes
             </Link>
             <Link
-              href="/auth/signup"
+              href="/learn"
               className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-green-700 transition-colors"
             >
-              Get Started
+              Learn to Ride
             </Link>
           </div>
         </div>
@@ -83,8 +83,9 @@ export default function Home() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-6">Ready to Ride?</h2>
           <p className="text-lg text-gray-300 mb-8">
-            Join our community and get access to quality bikes for your family.
-            Watch our safety video, sign the waiver, and start exploring your neighborhood!
+            Pick a bike from our inventory and reserve it. The reservation form
+            includes our liability waiver. We&apos;ll email you within 48 hours
+            to confirm pickup.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -94,10 +95,10 @@ export default function Home() {
               Watch Safety Video
             </Link>
             <Link
-              href="/auth/signup"
+              href="/inventory"
               className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-gray-800 transition-colors"
             >
-              Create Account
+              Reserve a Bike
             </Link>
           </div>
         </div>

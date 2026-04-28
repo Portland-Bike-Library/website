@@ -1,45 +1,6 @@
-"use client";
-
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useAuth } from "@/components/AuthProvider";
 
 export default function LearnPage() {
-  const router = useRouter();
-  const { user, loading, refreshUser } = useAuth();
-  const [completing, setCompleting] = useState(false);
-  const [error, setError] = useState("");
-
-  const handleCompleteVideo = async () => {
-    setError("");
-    setCompleting(true);
-
-    try {
-      const res = await fetch("/api/video/complete", {
-        method: "POST",
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        await refreshUser();
-        router.push("/waiver");
-      } else {
-        setError(data.error || "Failed to mark video as complete");
-      }
-    } catch {
-      setError("An unexpected error occurred");
-    }
-
-    setCompleting(false);
-  };
-
-  // Determine user status for the video requirement banner
-  const needsVideo = user && !user.hasWatchedVideo;
-  const needsWaiver = user && user.hasWatchedVideo && !user.hasSignedWaiver;
-  const completed = user && user.hasWatchedVideo && user.hasSignedWaiver;
-
   return (
     <div className="py-12">
       {/* Header */}
@@ -51,97 +12,19 @@ export default function LearnPage() {
         </p>
       </section>
 
-      {/* Status Banner */}
-      {!loading && user && (
-        <section className="max-w-4xl mx-auto px-4 mb-8">
-          {needsVideo && (
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <p className="text-blue-800">
-                <strong>Step 1:</strong> Watch the safety video below and click
-                &quot;Complete Video&quot; when finished. You&apos;ll sign the waiver
-                next.
-              </p>
-            </div>
-          )}
-          {needsWaiver && (
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-              <p className="text-yellow-800">
-                <strong>Step 2:</strong> Nice — orientation complete. Now please{" "}
-                <Link href="/waiver" className="underline font-medium">
-                  sign the waiver
-                </Link>
-                .
-              </p>
-            </div>
-          )}
-          {completed && (
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
-              <span className="text-2xl">&#9989;</span>
-              <p className="text-green-800">
-                <strong>All done!</strong> You&apos;ve completed the safety video on{" "}
-                {user.videoWatchedAt
-                  ? new Date(user.videoWatchedAt).toLocaleDateString()
-                  : "record"}
-                . You&apos;re ready to borrow bikes!
-              </p>
-            </div>
-          )}
-        </section>
-      )}
-
       {/* Video Section */}
       <section className="max-w-4xl mx-auto px-4 mb-8">
         <div className="bg-gray-900 rounded-lg overflow-hidden shadow-lg">
           <div className="aspect-video flex items-center justify-center bg-gray-800">
-            {/* Placeholder for video - replace with actual video embed */}
             <div className="text-center text-white p-8">
               <div className="text-6xl mb-4">&#127909;</div>
               <p className="text-xl font-semibold mb-2">Safety Orientation Video</p>
               <p className="text-gray-400 mb-4">
                 Video coming soon! In the meantime, please review the safety tips below.
               </p>
-              <p className="text-sm text-gray-500">
-                (Replace this placeholder with your YouTube/Vimeo embed)
-              </p>
             </div>
           </div>
         </div>
-
-        {/* Complete Video Button */}
-        {!loading && needsVideo && (
-          <div className="mt-6 text-center">
-            {error && (
-              <div className="bg-red-50 text-red-600 p-3 rounded-md mb-4 max-w-md mx-auto">
-                {error}
-              </div>
-            )}
-            <button
-              onClick={handleCompleteVideo}
-              disabled={completing}
-              className="bg-green-700 text-white px-8 py-3 rounded-full font-semibold hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {completing ? "Completing..." : "I've Watched the Video - Complete"}
-            </button>
-            <p className="text-sm text-gray-500 mt-2">
-              Click this button after watching the full video
-            </p>
-          </div>
-        )}
-
-        {!loading && !user && (
-          <div className="mt-6 text-center">
-            <p className="text-gray-600 mb-4">
-              Create an account and sign the waiver to track your video completion.
-            </p>
-            <Link
-              href="/auth/signup"
-              className="bg-green-700 text-white px-6 py-2 rounded-full font-medium hover:bg-green-600 transition-colors"
-            >
-              Get Started
-            </Link>
-          </div>
-        )}
-
         <p className="text-sm text-gray-500 mt-4 text-center">
           This video covers essential bike safety, traffic rules, and how to care for your borrowed bike.
         </p>
@@ -257,6 +140,23 @@ export default function LearnPage() {
               rusty or skip when pedaling.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="max-w-4xl mx-auto px-4 mb-12">
+        <div className="bg-green-50 rounded-lg p-8 text-center">
+          <h2 className="text-2xl font-bold text-gray-800 mb-3">Ready to Ride?</h2>
+          <p className="text-gray-600 mb-6">
+            Pick a bike from our inventory and reserve it. The reservation form
+            includes our liability waiver.
+          </p>
+          <Link
+            href="/inventory"
+            className="bg-green-700 text-white px-8 py-3 rounded-full font-semibold hover:bg-green-600 transition-colors inline-block"
+          >
+            Browse Bikes
+          </Link>
         </div>
       </section>
 
