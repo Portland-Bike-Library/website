@@ -6,7 +6,7 @@ export const organization = {
 
   vision: "A community where every family has the opportunity to walk, bike, roll around their neighborhood safely and enjoyably.",
 
-  purpose: "The Southeast Portland Bike Library aims to increase access to low- and no-cost bikes to underserved families, improve health and well-being, and create safer streets and neighborhoods for all community members.",
+  purpose: "Portland Bike Library aims to increase access to low- and no-cost bikes to underserved families in inner Southeast Portland, improve health and well-being, and create safer streets and neighborhoods for all community members.",
 
   values: [
     {
@@ -36,8 +36,8 @@ export const organization = {
 
 export const board = [
   {
-    name: "Jake Milligan",
-    email: "jake@portlandbikelibrary.org",
+    name: "Quinn Keogh",
+    email: "quinn@portlandbikelibrary.org",
     roles: ["President"],
   },
   {
@@ -46,8 +46,8 @@ export const board = [
     roles: ["Secretary"],
   },
   {
-    name: "Quinn Keogh",
-    email: "quinn@portlandbikelibrary.org",
+    name: "Jake Milligan",
+    email: "jake@portlandbikelibrary.org",
     roles: ["Treasurer"],
   }
 ];

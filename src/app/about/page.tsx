@@ -81,17 +81,17 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 501(c)(3) Status */}
+      {/* Legal Status */}
       <section className="max-w-4xl mx-auto px-4 mb-12">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">Our Legal Foundation</h2>
         <div className="bg-white p-6 rounded-lg shadow-md">
           <p className="text-gray-600 mb-4">
-            Portland Bike Library is a <strong>501(c)(3) nonprofit organization</strong> incorporated
-            in the State of Oregon. As a public benefit nonprofit, we are committed to serving
-            underserved families in our community.
-          </p>
-          <p className="text-gray-600 mb-4">
-            Your donations are tax-deductible to the extent allowed by law.
+            Portland Bike Library is an Oregon nonprofit public benefit corporation. We have
+            applied for federal tax-exempt recognition as a 501(c)(3) organization and are
+            awaiting determination from the IRS. Once recognition is granted, donations made
+            on or after our incorporation date will be tax-deductible to the extent allowed
+            by law (the IRS recognition is generally retroactive to the date of incorporation,
+            but please consult your tax advisor).
           </p>
           <p className="text-gray-600">
             In accordance with our bylaws, in the event of dissolution, our assets would be
@@ -119,8 +119,9 @@ export default function AboutPage() {
             <div className="bg-green-600 p-6 rounded-lg">
               <h3 className="font-semibold text-xl mb-2">Financial Support</h3>
               <p className="text-green-100">
-                Tax-deductible donations help us maintain bikes, acquire new ones,
-                and expand our reach.
+                Donations help us maintain bikes, acquire new ones, and expand our reach.
+                Once our 501(c)(3) recognition is granted, contributions will be
+                tax-deductible to the extent allowed by law.
               </p>
             </div>
             <div className="bg-green-600 p-6 rounded-lg">

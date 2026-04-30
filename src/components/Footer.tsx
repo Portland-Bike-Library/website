@@ -52,7 +52,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-gray-700 mt-8 pt-6 text-center text-gray-500 text-sm">
-          <p>&copy; {new Date().getFullYear()} {organization.name}. A 501(c)(3) nonprofit organization.</p>
+          <p>&copy; {new Date().getFullYear()} {organization.name}. An Oregon nonprofit public benefit corporation. 501(c)(3) tax-exempt status pending.</p>
         </div>
       </div>
     </footer>
