@@ -91,8 +91,7 @@ export default function AboutPage() {
             underserved families in our community.
           </p>
           <p className="text-gray-600 mb-4">
-            Your donations are tax-deductible to the extent allowed by law. We maintain
-            general liability insurance to protect our volunteers and participants.
+            Your donations are tax-deductible to the extent allowed by law.
           </p>
           <p className="text-gray-600">
             In accordance with our bylaws, in the event of dissolution, our assets would be
