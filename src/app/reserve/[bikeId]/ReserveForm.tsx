@@ -110,8 +110,8 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
             </p>
             <p className="text-green-600 text-sm mt-4">
               Questions? Email{" "}
-              <a className="underline" href="mailto:hello@portlandbikelibrary.org">
-                hello@portlandbikelibrary.org
+              <a className="underline" href="mailto:contact@portlandbikelibrary.org">
+                contact@portlandbikelibrary.org
               </a>
               .
             </p>
