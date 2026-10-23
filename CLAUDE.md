@@ -19,7 +19,7 @@ To promote safe, fun, active transportation for families in inner SE Portland, c
 - Next.js 16 with App Router (React 19)
 - TypeScript
 - Tailwind CSS 4
-- In-memory data store (development mode)
+- Supabase (Postgres + Storage) for reservations and bike inventory
 
 ## Project Structure
 
@@ -27,8 +27,8 @@ To promote safe, fun, active transportation for families in inner SE Portland, c
 src/
 ├── app/           # Pages and API routes
 ├── components/    # AuthProvider, Navigation, Footer
-├── lib/           # Auth logic, types, store, rate limiting
-└── content/       # Static content (waiver, inventory, org info)
+├── lib/           # Admin auth, Supabase client, bike data access, types
+└── content/       # Static content (waiver, org info)
 public/
 └── bikes/         # Bike photos
 ```
@@ -47,7 +47,7 @@ npm run dev    # Start dev server at localhost:3000
 
 ## Inventory
 
-Bike data is in `src/content/inventory.ts`. Photos go in `public/bikes/` and should match the `image` path in the bike object.
+Bikes live in the Supabase `bikes` table and are edited by admins at `/admin/bikes` (add, edit, delete, toggle availability, upload photo). Photos upload to the public `bike-photos` storage bucket; the original seed photos remain in `public/bikes/`. Schema is in `supabase/migrations/`.
 
 ## Key Requirements
 

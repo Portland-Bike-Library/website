@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { isAdmin } from "@/lib/admin-auth";
 import { supabaseAdmin } from "@/lib/supabase";
@@ -140,7 +141,12 @@ export default async function AdminPage() {
       <div className="max-w-4xl mx-auto px-4">
         <div className="flex items-baseline justify-between mb-8">
           <h1 className="text-3xl font-bold text-gray-800">Admin</h1>
-          <LogoutButton />
+          <div className="flex items-center gap-4">
+            <Link href="/admin/bikes" className="text-green-700 text-sm font-medium hover:underline">
+              Manage bikes &rarr;
+            </Link>
+            <LogoutButton />
+          </div>
         </div>
 
         <section className="mb-10">

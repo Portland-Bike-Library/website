@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
-import { bikes } from "@/content/inventory";
+import { getBike } from "@/lib/bikes";
 import ReserveForm from "./ReserveForm";
+
+export const dynamic = "force-dynamic";
 
 export default async function ReservePage({
   params,
@@ -8,7 +10,7 @@ export default async function ReservePage({
   params: Promise<{ bikeId: string }>;
 }) {
   const { bikeId } = await params;
-  const bike = bikes.find((b) => b.id === bikeId);
+  const bike = await getBike(bikeId);
   if (!bike) {
     notFound();
   }

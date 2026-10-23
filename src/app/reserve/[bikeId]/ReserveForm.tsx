@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Bike } from "@/content/inventory";
+import type { Bike } from "@/lib/types";
 import { waiverContent } from "@/content/waiver";
 
 export default function ReserveForm({ bike }: { bike: Bike }) {

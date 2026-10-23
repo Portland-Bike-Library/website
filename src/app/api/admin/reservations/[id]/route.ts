@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { isAdmin } from "@/lib/admin-auth";
 import { supabaseAdmin } from "@/lib/supabase";
 import type { ReservationStatus } from "@/lib/types";
+import {
+  notifyBorrowerApproved,
+  notifyBorrowerDenied,
+  notifyBorrowerPickedUp,
+  type ReservationSummary,
+} from "@/lib/email";
 
 type Action = "approve" | "deny" | "pickup" | "return" | "cancel";
 
@@ -48,7 +54,7 @@ export async function POST(
 
   const { data: row, error: fetchErr } = await supabaseAdmin
     .from("reservations")
-    .select("status")
+    .select("status, borrower_name, borrower_email, borrower_phone, bike_name, start_date, end_date, minor_name")
     .eq("id", id)
     .single();
   if (fetchErr || !row) {
@@ -74,6 +80,11 @@ export async function POST(
     console.error("Reservation update failed:", updateErr);
     return NextResponse.json({ error: "Failed to update reservation." }, { status: 500 });
   }
+
+  const summary: ReservationSummary = { id, ...row };
+  if (action === "approve") await notifyBorrowerApproved(summary, notes);
+  else if (action === "deny") await notifyBorrowerDenied(summary, notes);
+  else if (action === "pickup") await notifyBorrowerPickedUp(summary);
 
   return NextResponse.json({ success: true, status: NEXT_STATUS[action] });
 }

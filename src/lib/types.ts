@@ -30,3 +30,47 @@ export interface Reservation {
   returned_at: string | null;
   admin_notified_at: string | null;
 }
+
+// Row shape of public.bikes
+export interface BikeRow {
+  id: string;
+  name: string;
+  type: string;
+  size: string;
+  description: string;
+  image_url: string;
+  available: boolean;
+  max_loan_period: string;
+  features: string[];
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+// App-facing bike shape (used by inventory, reserve form, admin)
+export interface Bike {
+  id: string;
+  name: string;
+  type: string;
+  size: string;
+  description: string;
+  image: string;
+  available: boolean;
+  maxLoanPeriod: string;
+  features: string[];
+  sortOrder: number;
+}
+
+// Fields an admin can set when creating/updating a bike
+export interface BikeInput {
+  id: string;
+  name: string;
+  type: string;
+  size: string;
+  description: string;
+  image: string;
+  available: boolean;
+  maxLoanPeriod: string;
+  features: string[];
+  sortOrder: number;
+}

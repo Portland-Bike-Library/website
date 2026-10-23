@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
-import { bikes } from "@/content/inventory";
+import { getBike } from "@/lib/bikes";
+import { notifyAdminNewReservation, notifyBorrowerReceived } from "@/lib/email";
 
 const MAX_DAYS = 90; // hard cap; bike-specific limits shown in form copy
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -49,9 +50,15 @@ export async function POST(request: NextRequest) {
         ? borrowerPhone.trim()
         : null;
 
-    const bike = bikes.find((b) => b.id === bikeId);
+    const bike = typeof bikeId === "string" ? await getBike(bikeId) : null;
     if (!bike) {
       return NextResponse.json({ error: "Bike not found." }, { status: 400 });
+    }
+    if (!bike.available) {
+      return NextResponse.json(
+        { error: "That bike isn't available to reserve right now." },
+        { status: 400 }
+      );
     }
 
     if (!isIsoDate(startDate) || !isIsoDate(endDate)) {
@@ -128,8 +135,26 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // TODO: send admin notification email via Resend once configured.
-    console.log(`[reserve] new reservation ${data.id} for bike ${bike.id} from ${borrowerEmail}`);
+    const summary = {
+      id: data.id,
+      borrower_name: borrowerName.trim(),
+      borrower_email: borrowerEmail.trim().toLowerCase(),
+      borrower_phone: phone,
+      bike_name: bike.name,
+      start_date: startDate,
+      end_date: endDate,
+      minor_name: minorName,
+    };
+    const [adminSent] = await Promise.all([
+      notifyAdminNewReservation(summary),
+      notifyBorrowerReceived(summary),
+    ]);
+    if (adminSent) {
+      await supabaseAdmin
+        .from("reservations")
+        .update({ admin_notified_at: new Date().toISOString() })
+        .eq("id", data.id);
+    }
 
     return NextResponse.json({ reservationId: data.id });
   } catch (error) {
