@@ -145,6 +145,9 @@ export default async function AdminPage() {
             <Link href="/admin/bikes" className="text-green-700 text-sm font-medium hover:underline">
               Manage bikes &rarr;
             </Link>
+            <Link href="/admin/backlog" className="text-green-700 text-sm font-medium hover:underline">
+              Backlog &rarr;
+            </Link>
             <LogoutButton />
           </div>
         </div>
