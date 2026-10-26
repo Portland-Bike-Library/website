@@ -86,12 +86,12 @@ export default function AboutPage() {
         <h2 className="text-3xl font-bold text-gray-800 mb-6">Our Legal Foundation</h2>
         <div className="bg-white p-6 rounded-lg shadow-md">
           <p className="text-gray-600 mb-4">
-            Portland Bike Library is an Oregon nonprofit public benefit corporation. We have
-            applied for federal tax-exempt recognition as a 501(c)(3) organization and are
-            awaiting determination from the IRS. Once recognition is granted, donations made
-            on or after our incorporation date will be tax-deductible to the extent allowed
-            by law (the IRS recognition is generally retroactive to the date of incorporation,
-            but please consult your tax advisor).
+            Portland Bike Library is in the process of incorporating as an Oregon nonprofit
+            public benefit corporation and applying for federal tax-exempt recognition as a
+            501(c)(3) organization. Once recognition is granted, donations made on or after
+            our incorporation date will be tax-deductible to the extent allowed by law (the
+            IRS recognition is generally retroactive to the date of incorporation, but please
+            consult your tax advisor).
           </p>
           <p className="text-gray-600">
             In accordance with our bylaws, in the event of dissolution, our assets would be

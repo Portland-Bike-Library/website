@@ -56,7 +56,7 @@ export const programs = [
   {
     title: "Bike Lending Library",
     description: "Borrow quality bikes for your family at low or no cost.",
-    goal: "By the end of Q1 2026, have five high-quality bikes in circulation.",
+    goal: "Have five high-quality bikes in circulation by the end of 2026.",
     icon: "🚲"
   },
   {
