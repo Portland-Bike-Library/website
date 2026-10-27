@@ -8,6 +8,13 @@ type Item = {
   examples: { label: string; href: string }[];
 };
 
+const documents = [
+  {
+    label: "Incorporation Package (DRAFT) — Google Doc",
+    href: "https://docs.google.com/document/d/1jwnzbbqn9lV4OUzZq7gY3PvxgRM5S0IOY2f1cTCQc-A/edit",
+  },
+];
+
 const backlog: Item[] = [
   {
     title: "FAQ page",
@@ -113,8 +120,25 @@ export default async function AdminBacklogPage() {
         </Link>
         <h1 className="text-3xl font-bold text-gray-800 mt-2 mb-2">Site backlog</h1>
         <p className="text-sm text-gray-600 mb-8">
-          Ideas from other bike libraries, with examples of who does each well.
+          Internal reference docs, plus ideas from other bike libraries with examples of who does each well.
         </p>
+        <h2 className="text-xl font-semibold text-gray-800 mb-2">Documents</h2>
+        <ul className="bg-white rounded-lg shadow-md p-4 mb-8">
+          {documents.map((d) => (
+            <li key={d.href}>
+              <a
+                href={d.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-green-700 text-sm hover:underline"
+              >
+                {d.label} &nearr;
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <h2 className="text-xl font-semibold text-gray-800 mb-2">Ideas from other libraries</h2>
         <ol className="space-y-3 list-decimal list-inside">
           {backlog.map((item) => (
             <li key={item.title} className="bg-white rounded-lg shadow-md p-4">
