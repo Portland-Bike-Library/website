@@ -132,7 +132,7 @@ export default async function AdminBacklogPage() {
                 rel="noopener noreferrer"
                 className="text-green-700 text-sm hover:underline"
               >
-                {d.label} &nearr;
+                {d.label} ↗
               </a>
             </li>
           ))}
@@ -153,7 +153,7 @@ export default async function AdminBacklogPage() {
                       rel="noopener noreferrer"
                       className="text-green-700 text-sm hover:underline"
                     >
-                      {ex.label} &nearr;
+                      {ex.label} ↗
                     </a>
                   </li>
                 ))}
