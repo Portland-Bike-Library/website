@@ -133,6 +133,10 @@ export default function BikeForm({ bike }: { bike?: Bike }) {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <section className="bg-white rounded-lg shadow-md p-6 grid md:grid-cols-2 gap-4">
+            <label className="md:col-span-2 flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" checked={available} onChange={(e) => setAvailable(e.target.checked)} className="w-5 h-5 rounded border-gray-300 text-green-600 focus:ring-green-500" />
+              <span className="text-gray-800 font-medium">Available to reserve</span>
+            </label>
             <div className="md:col-span-2">
               <label htmlFor="name" className={LABEL}>Name</label>
               <input id="name" required value={name} onChange={(e) => onNameChange(e.target.value)} className={INPUT} placeholder="Woom Now 6" />
@@ -235,10 +239,6 @@ export default function BikeForm({ bike }: { bike?: Bike }) {
           </section>
 
           <section className="bg-white rounded-lg shadow-md p-6 grid md:grid-cols-2 gap-4">
-            <label className="flex items-center gap-3 cursor-pointer">
-              <input type="checkbox" checked={available} onChange={(e) => setAvailable(e.target.checked)} className="rounded border-gray-300 text-green-600 focus:ring-green-500" />
-              <span className="text-gray-700">Available to reserve</span>
-            </label>
             <div>
               <label htmlFor="sortOrder" className={LABEL}>
                 Sort order <span className="text-gray-400">(lower shows first)</span>
