@@ -17,13 +17,9 @@ const documents = [
 
 const todos: Item[] = [
   {
-    title: "Training video",
-    note: "Can we steal the Minneapolis one? Candidates from the League of American Bicyclists below.",
-    examples: [
-      { label: "Ride Smart videos", href: "https://bikeleague.org/ridesmart/ridesmartvideos/" },
-      { label: "Traffic and safety tips", href: "https://bikeleague.org/videos/traffic-and-safety-tips/" },
-      { label: "Bike parking and sidewalks", href: "https://bikeleague.org/videos/bike-parking-and-sidewalks/" },
-    ],
+    title: "Gate reservation on video being watched within 6 months",
+    note: "Today it's a self-reported checkbox per reservation. Needs a per-user record of when the video was last watched (ties into users table + phone login).",
+    examples: [],
   },
   {
     title: "Log in with code via phone number",
