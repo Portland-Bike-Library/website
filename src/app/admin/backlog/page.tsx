@@ -15,6 +15,38 @@ const documents = [
   },
 ];
 
+const todos: Item[] = [
+  {
+    title: "Verify bike type dropdowns work correctly",
+    note: "Admin add/edit bike form. Now a select + 'Other...' free-text; confirm on real browsers.",
+    examples: [],
+  },
+  {
+    title: "Training video",
+    note: "Can we steal the Minneapolis one? Candidates from the League of American Bicyclists below.",
+    examples: [
+      { label: "Ride Smart videos", href: "https://bikeleague.org/ridesmart/ridesmartvideos/" },
+      { label: "Traffic and safety tips", href: "https://bikeleague.org/videos/traffic-and-safety-tips/" },
+      { label: "Bike parking and sidewalks", href: "https://bikeleague.org/videos/bike-parking-and-sidewalks/" },
+    ],
+  },
+  {
+    title: "Log in with code via phone number",
+    note: "Do we need Resend or a similar service for SMS?",
+    examples: [],
+  },
+  {
+    title: "Two tables: users + traits, reservations",
+    note: "Split user/traits from reservations in Supabase.",
+    examples: [],
+  },
+  {
+    title: "English vs. Spanish toggle",
+    note: "Site-wide language switch.",
+    examples: [],
+  },
+];
+
 const backlog: Item[] = [
   {
     title: "FAQ page",
@@ -122,6 +154,32 @@ export default async function AdminBacklogPage() {
         <p className="text-sm text-gray-600 mb-8">
           Internal reference docs, plus ideas from other bike libraries with examples of who does each well.
         </p>
+        <h2 className="text-xl font-semibold text-gray-800 mb-2">Up next</h2>
+        <ol className="space-y-3 list-decimal list-inside mb-8">
+          {todos.map((item) => (
+            <li key={item.title} className="bg-white rounded-lg shadow-md p-4">
+              <span className="text-lg font-semibold text-gray-800">{item.title}</span>
+              <p className="text-sm text-gray-600 mt-1">{item.note}</p>
+              {item.examples.length > 0 && (
+                <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+                  {item.examples.map((ex) => (
+                    <li key={ex.href}>
+                      <a
+                        href={ex.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-green-700 text-sm hover:underline"
+                      >
+                        {ex.label} ↗
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ol>
+
         <h2 className="text-xl font-semibold text-gray-800 mb-2">Documents</h2>
         <ul className="bg-white rounded-lg shadow-md p-4 mb-8">
           {documents.map((d) => (
