@@ -17,11 +17,6 @@ const documents = [
 
 const todos: Item[] = [
   {
-    title: "Verify bike type dropdowns work correctly",
-    note: "Admin add/edit bike form. Now a select + 'Other...' free-text; confirm on real browsers.",
-    examples: [],
-  },
-  {
     title: "Training video",
     note: "Can we steal the Minneapolis one? Candidates from the League of American Bicyclists below.",
     examples: [
