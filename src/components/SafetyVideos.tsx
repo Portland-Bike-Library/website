@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { safetyVideos } from "@/content/safety-videos";
-
-type Lang = "en" | "es";
+import { useLang } from "@/lib/lang";
+import { translations } from "@/content/translations";
 
 function Player({ id, title }: { id: string; title: string }) {
   return (
@@ -20,33 +19,14 @@ function Player({ id, title }: { id: string; title: string }) {
   );
 }
 
-
 export default function SafetyVideos() {
-  const [lang, setLang] = useState<Lang>("en");
+  const { lang } = useLang();
+  const t = translations[lang].learn;
   const [main, ...rest] = safetyVideos;
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-3">
-        <h2 className="text-xl font-semibold text-gray-800">
-          {lang === "en" ? "Safety Orientation Video" : "Video de Orientación de Seguridad"}
-        </h2>
-        <div className="inline-flex rounded-full border border-gray-300 overflow-hidden text-sm">
-          {(["en", "es"] as Lang[]).map((l) => (
-            <button
-              key={l}
-              type="button"
-              onClick={() => setLang(l)}
-              aria-pressed={lang === l}
-              className={`px-3 py-1 font-medium transition-colors ${
-                lang === l ? "bg-green-700 text-white" : "bg-white text-gray-700 hover:bg-gray-100"
-              }`}
-            >
-              {l === "en" ? "English" : "Español"}
-            </button>
-          ))}
-        </div>
-      </div>
+      <h2 className="text-xl font-semibold text-gray-800 mb-3">{t.videoHeading}</h2>
 
       <Player id={main.youtubeId[lang]} title={main.title[lang]} />
       <p className="text-sm text-gray-600 mt-3">{main.blurb[lang]}</p>
@@ -64,16 +44,16 @@ export default function SafetyVideos() {
       )}
 
       <p className="text-xs text-gray-500 mt-6 text-center">
-        Videos courtesy of the{" "}
+        {t.courtesyBefore}
         <a
           href="https://bikeleague.org/ridesmart/"
           target="_blank"
           rel="noopener noreferrer"
           className="underline hover:text-gray-700"
         >
-          League of American Bicyclists
-        </a>{" "}
-        Ride Smart series.
+          {t.courtesyLink}
+        </a>
+        {t.courtesyAfter}
       </p>
     </div>
   );

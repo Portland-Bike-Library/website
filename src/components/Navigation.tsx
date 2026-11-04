@@ -3,18 +3,22 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-
-const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/inventory", label: "Bikes" },
-  { href: "/learn", label: "Learn" },
-  { href: "/waiver", label: "Waiver" },
-];
+import { useLang } from "@/lib/lang";
+import { translations } from "@/content/translations";
+import LangSwitch from "./LangSwitch";
 
 export default function Navigation() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { lang } = useLang();
+  const t = translations[lang].nav;
+  const navItems = [
+    { href: "/", label: t.home },
+    { href: "/about", label: t.about },
+    { href: "/inventory", label: t.bikes },
+    { href: "/learn", label: t.learn },
+    { href: "/waiver", label: t.waiver },
+  ];
 
   return (
     <nav className="bg-green-700 text-white shadow-lg">
@@ -42,8 +46,9 @@ export default function Navigation() {
               href="/inventory"
               className="bg-white text-green-700 px-4 py-1 rounded-full hover:bg-green-100 transition-colors font-medium"
             >
-              Reserve a Bike
+              {t.reserve}
             </Link>
+            <LangSwitch dark />
           </div>
 
           {/* Mobile menu button */}
@@ -96,8 +101,11 @@ export default function Navigation() {
               className="block py-2 hover:text-green-200 font-semibold"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Reserve a Bike
+              {t.reserve}
             </Link>
+            <div className="pt-3">
+              <LangSwitch dark />
+            </div>
           </div>
         )}
       </div>

@@ -3,6 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import ComingSoonBanner from "@/components/ComingSoonBanner";
+import { LangProvider } from "@/lib/lang";
+import { getLang } from "@/lib/lang-server";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,22 +22,23 @@ export const metadata: Metadata = {
   description: "Promoting safe, fun, active transportation for families in inner SE Portland through our bike lending library.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const lang = await getLang();
   return (
-    <html lang="en">
+    <html lang={lang}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        <div className="bg-yellow-500 text-black text-center py-2 font-semibold">
-          Coming Soon
-        </div>
-        <Navigation />
-        <main className="flex-grow">{children}</main>
-        <Footer />
+        <LangProvider initial={lang}>
+          <ComingSoonBanner />
+          <Navigation />
+          <main className="flex-grow">{children}</main>
+          <Footer />
+        </LangProvider>
       </body>
     </html>
   );

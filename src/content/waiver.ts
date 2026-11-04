@@ -39,3 +39,46 @@ export const waiverContent = {
 
   minorNotice: `If you are completing this waiver on behalf of a minor child, add the child's information below. One waiver is required per minor child.`
 };
+
+// Courtesy Spanish translation. NOT legally binding; the English text above controls.
+export const waiverContentEs = {
+  title: "Exención de responsabilidad de Portland Bike Library",
+  subtitle: "Liberación de responsabilidad y aceptación de riesgo",
+
+  introduction: `EN CONSIDERACIÓN de que se me permita participar en Portland Bike Library, yo, por mí mismo(a), mi representante personal, cesionarios, herederos y parientes más cercanos:`,
+
+  clauses: [
+    {
+      number: 1,
+      text: `Reconozco, acepto y declaro que entiendo y sé que el ciclismo es una actividad que conlleva un riesgo significativo de lesiones personales, y sé que existen obstáculos naturales y artificiales, peligros, condiciones de superficie y ambientales y riesgos que, en combinación con mis acciones, pueden causarme lesiones graves o mortales. También acepto que yo, y no Portland Bike Library ni los miembros, personal, voluntarios, contratistas y patrocinadores de organizaciones asociadas, soy responsable de mi seguridad mientras participo en Portland Bike Library.`,
+    },
+    {
+      number: 2,
+      text: `Por la presente libero, exonero y me comprometo a no demandar a Portland Bike Library, sus patrocinadores, organizadores, entidades asociadas y todos sus empleados, directores, funcionarios o cualquier persona relacionada con Portland Bike Library, incluidos Quinn Keogh, Aaron Stoertz y Jake Milligan (en adelante, los Liberados), de toda responsabilidad, reclamación, demanda, pérdida o daño por mi cuenta causado total o parcialmente por negligencia de los Liberados o de otro modo.`,
+    },
+    {
+      number: 3,
+      text: `He participado en una orientación de Portland Bike Library y cumpliré las instrucciones de seguridad allí contenidas mientras ande en bicicleta.`,
+    },
+    {
+      number: 4,
+      text: `Acepto cumplir las leyes de tránsito mientras participo.`,
+    },
+    {
+      number: 5,
+      text: `Acepto que seré la única persona que use la bicicleta proporcionada.`,
+    },
+    {
+      number: 6,
+      text: `ACEPTO USAR UN CASCO DE BICICLETA APROBADO MIENTRAS PARTICIPO.`,
+    },
+    {
+      number: 7,
+      text: `Acepto que esta Liberación y Exención será válida y se aplicará a todas las actividades y eventos relacionados con Portland Bike Library durante el año en que se feche mi firma a continuación.`,
+    },
+  ],
+
+  acknowledgment: `Al escribir mi nombre en letra de molde y mi firma a continuación, reconozco que he leído esta exención, entiendo su contenido y acepto quedar obligado(a) por sus términos. Entiendo que renuncio a derechos importantes, incluido mi derecho a demandar.`,
+
+  minorNotice: `Si completas esta exención en nombre de un menor de edad, agrega los datos del menor a continuación. Se requiere una exención por cada menor.`,
+};

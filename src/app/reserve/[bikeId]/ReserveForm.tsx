@@ -4,9 +4,15 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import type { Bike } from "@/lib/types";
-import { waiverContent } from "@/content/waiver";
+import { waiverContent, waiverContentEs } from "@/content/waiver";
+import { useLang } from "@/lib/lang";
+import { translations } from "@/content/translations";
+import WaiverText from "@/components/WaiverText";
 
 export default function ReserveForm({ bike }: { bike: Bike }) {
+  const { lang } = useLang();
+  const t = translations[lang].reserve;
+  const minorNotice = (lang === "es" ? waiverContentEs : waiverContent).minorNotice;
   const [borrowerName, setBorrowerName] = useState("");
   const [borrowerEmail, setBorrowerEmail] = useState("");
   const [borrowerPhone, setBorrowerPhone] = useState("");
@@ -28,40 +34,40 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
     setError("");
 
     if (!watchedVideo) {
-      setError("Please watch the safety video on the Learn page before reserving.");
+      setError(t.errors.video);
       return;
     }
     if (!agreed) {
-      setError("You must agree to the waiver to submit a reservation.");
+      setError(t.errors.agree);
       return;
     }
     if (borrowerName.trim().length < 2) {
-      setError("Please enter your full name.");
+      setError(t.errors.name);
       return;
     }
     if (!borrowerEmail.trim()) {
-      setError("Please enter your email.");
+      setError(t.errors.email);
       return;
     }
     if (!startDate || !endDate) {
-      setError("Please choose start and end dates.");
+      setError(t.errors.dates);
       return;
     }
     if (printedName.trim().length < 2) {
-      setError("Please enter your printed legal name.");
+      setError(t.errors.printedName);
       return;
     }
     if (signature.trim().length < 2) {
-      setError("Please enter your signature.");
+      setError(t.errors.signature);
       return;
     }
     if (includeMinor) {
       if (minorName.trim().length < 2) {
-        setError("Please enter the minor child's name.");
+        setError(t.errors.minorName);
         return;
       }
       if (!minorDob) {
-        setError("Please enter the minor child's date of birth.");
+        setError(t.errors.minorDob);
         return;
       }
     }
@@ -91,10 +97,10 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
       if (res.ok) {
         setSubmitted(true);
       } else {
-        setError(data.error || "Something went wrong. Please try again.");
+        setError(data.error || t.errors.generic);
       }
     } catch {
-      setError("An unexpected error occurred. Please try again.");
+      setError(t.errors.unexpected);
     }
     setSubmitting(false);
   };
@@ -106,16 +112,17 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
           <div className="bg-green-50 border border-green-200 rounded-lg p-8 text-center">
             <div className="text-5xl mb-4">&#9989;</div>
             <h1 className="text-3xl font-bold text-green-800 mb-4">
-              Reservation Received
+              {t.receivedTitle}
             </h1>
             <p className="text-green-700 mb-2">
-              Thanks, {borrowerName.split(" ")[0] || "rider"}. We&apos;ll review your
-              request for the <strong>{bike.name}</strong> and email you at{" "}
-              <strong>{borrowerEmail}</strong> within 48 hours to confirm pickup
-              details.
+              {t.receivedBefore(borrowerName.split(" ")[0] || "rider")}
+              <strong>{bike.name}</strong>
+              {t.receivedMiddle}
+              <strong>{borrowerEmail}</strong>
+              {t.receivedAfter}
             </p>
             <p className="text-green-600 text-sm mt-4">
-              Questions? Email{" "}
+              {t.questions}
               <a className="underline" href="mailto:contact@portlandbikelibrary.org">
                 contact@portlandbikelibrary.org
               </a>
@@ -126,13 +133,13 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
                 href="/inventory"
                 className="bg-green-700 text-white px-6 py-2 rounded-full font-medium hover:bg-green-600 transition-colors"
               >
-                Browse More Bikes
+                {t.browseMore}
               </Link>
               <Link
                 href="/"
                 className="border border-green-700 text-green-700 px-6 py-2 rounded-full font-medium hover:bg-green-50 transition-colors"
               >
-                Home
+                {t.home}
               </Link>
             </div>
           </div>
@@ -147,14 +154,13 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
     <div className="py-12">
       <div className="max-w-3xl mx-auto px-4">
         <Link href="/inventory" className="text-green-700 text-sm hover:underline">
-          &larr; Back to inventory
+          &larr; {t.back}
         </Link>
         <h1 className="text-4xl font-bold text-gray-800 mt-4 mb-2">
-          Reserve the {bike.name}
+          {t.title(bike.name)}
         </h1>
         <p className="text-lg text-gray-600 mb-8">
-          Submit a reservation request and sign the waiver in one step. We&apos;ll
-          confirm pickup details by email within 48 hours.
+          {t.intro}
         </p>
 
         {/* Bike summary */}
@@ -173,7 +179,7 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
             <h2 className="text-xl font-semibold text-gray-800">{bike.name}</h2>
             <p className="text-sm text-gray-600 mt-1">{bike.size}</p>
             <p className="text-sm text-gray-600 mt-2">
-              <strong>Max loan period:</strong> {bike.maxLoanPeriod}
+              <strong>{t.maxLoanPeriod}</strong> {bike.maxLoanPeriod}
             </p>
           </div>
         </div>
@@ -181,14 +187,13 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Safety video */}
           <section className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold text-gray-800 mb-2">Safety Orientation</h2>
+            <h2 className="text-xl font-semibold text-gray-800 mb-2">{t.safetyTitle}</h2>
             <p className="text-sm text-gray-600 mb-4">
-              Every borrower watches our short safety video before their first loan. It&apos;s on
-              the{" "}
+              {t.safetyBefore}
               <Link href="/learn" target="_blank" className="text-green-700 underline">
-                Learn page
-              </Link>{" "}
-              (opens in a new tab).
+                {t.safetyLink}
+              </Link>
+              {t.safetyAfter}
             </p>
             <label className="flex items-start gap-3 cursor-pointer">
               <input
@@ -198,18 +203,18 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
                 className="mt-1 rounded border-gray-300 text-green-600 focus:ring-green-500"
               />
               <span className="text-gray-700 text-sm">
-                I have watched the safety orientation video and reviewed the e-bike basics.
+                {t.safetyCheckbox}
               </span>
             </label>
           </section>
 
           {/* Borrower */}
           <section className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">Your Info</h2>
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">{t.yourInfo}</h2>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="md:col-span-2">
                 <label htmlFor="borrowerName" className="block text-sm font-medium text-gray-700 mb-1">
-                  Full name
+                  {t.fullName}
                 </label>
                 <input
                   id="borrowerName"
@@ -222,7 +227,7 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
               </div>
               <div>
                 <label htmlFor="borrowerEmail" className="block text-sm font-medium text-gray-700 mb-1">
-                  Email
+                  {t.email}
                 </label>
                 <input
                   id="borrowerEmail"
@@ -235,7 +240,7 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
               </div>
               <div>
                 <label htmlFor="borrowerPhone" className="block text-sm font-medium text-gray-700 mb-1">
-                  Phone <span className="text-gray-400">(optional, helps with pickup)</span>
+                  {t.phone} <span className="text-gray-400">{t.phoneHint}</span>
                 </label>
                 <input
                   id="borrowerPhone"
@@ -250,15 +255,14 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
 
           {/* Dates */}
           <section className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold text-gray-800 mb-2">Requested Dates</h2>
+            <h2 className="text-xl font-semibold text-gray-800 mb-2">{t.datesTitle}</h2>
             <p className="text-sm text-gray-600 mb-4">
-              This bike&apos;s max loan period is <strong>{bike.maxLoanPeriod}</strong>.
-              We&apos;ll confirm exact dates with you.
+              {t.datesBefore}<strong>{bike.maxLoanPeriod}</strong>{t.datesAfter}
             </p>
             <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <label htmlFor="startDate" className="block text-sm font-medium text-gray-700 mb-1">
-                  Start date
+                  {t.startDate}
                 </label>
                 <input
                   id="startDate"
@@ -272,7 +276,7 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
               </div>
               <div>
                 <label htmlFor="endDate" className="block text-sm font-medium text-gray-700 mb-1">
-                  End date
+                  {t.endDate}
                 </label>
                 <input
                   id="endDate"
@@ -289,22 +293,7 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
 
           {/* Waiver */}
           <section className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold text-gray-800 mb-2">{waiverContent.title}</h2>
-            <p className="text-sm text-gray-600 mb-6">{waiverContent.subtitle}</p>
-
-            <p className="text-gray-700 mb-4 font-medium">{waiverContent.introduction}</p>
-            <ol className="space-y-3 mb-6">
-              {waiverContent.clauses.map((clause) => (
-                <li key={clause.number} className="text-gray-700 leading-relaxed">
-                  <span className="font-semibold text-green-700">{clause.number}.</span>{" "}
-                  {clause.text}
-                </li>
-              ))}
-            </ol>
-
-            <div className="bg-gray-50 p-4 rounded-lg mb-6">
-              <p className="text-gray-700 text-sm">{waiverContent.acknowledgment}</p>
-            </div>
+            <WaiverText compact />
 
             <div className="space-y-4">
               <label className="flex items-start gap-3 cursor-pointer">
@@ -315,15 +304,13 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
                   className="mt-1 rounded border-gray-300 text-green-600 focus:ring-green-500"
                 />
                 <span className="text-gray-700 text-sm">
-                  I have read and understood the above waiver. I agree to all terms
-                  and acknowledge that I am giving up substantial legal rights by
-                  signing this document.
+                  {t.agree}
                 </span>
               </label>
 
               <div>
                 <label htmlFor="printedName" className="block text-sm font-medium text-gray-700 mb-1">
-                  Printed legal name
+                  {t.printedName}
                 </label>
                 <input
                   id="printedName"
@@ -337,7 +324,7 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
 
               <div>
                 <label htmlFor="signature" className="block text-sm font-medium text-gray-700 mb-1">
-                  Signature (type your full name)
+                  {t.signature}
                 </label>
                 <input
                   id="signature"
@@ -350,13 +337,13 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
               </div>
 
               <p className="text-xs text-gray-500">
-                Date: {new Date().toLocaleDateString()}
+                {t.date} {new Date().toLocaleDateString(lang === "es" ? "es-US" : "en-US")}
               </p>
             </div>
 
             {/* Minor block */}
             <div className="mt-6 border-t border-gray-200 pt-6">
-              <p className="text-sm text-gray-600 mb-3">{waiverContent.minorNotice}</p>
+              <p className="text-sm text-gray-600 mb-3">{minorNotice}</p>
               <label className="flex items-start gap-3 cursor-pointer mb-4">
                 <input
                   type="checkbox"
@@ -365,8 +352,7 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
                   className="mt-1 rounded border-gray-300 text-green-600 focus:ring-green-500"
                 />
                 <span className="text-gray-700 text-sm">
-                  I am completing this waiver on behalf of a minor child, and I take
-                  responsibility for their liability and risk as outlined above.
+                  {t.minorCheckbox}
                 </span>
               </label>
 
@@ -374,7 +360,7 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
                 <div className="pl-7 space-y-3">
                   <div>
                     <label htmlFor="minorName" className="block text-sm font-medium text-gray-700 mb-1">
-                      Minor child&apos;s full name
+                      {t.minorName}
                     </label>
                     <input
                       id="minorName"
@@ -386,7 +372,7 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
                   </div>
                   <div>
                     <label htmlFor="minorDob" className="block text-sm font-medium text-gray-700 mb-1">
-                      Date of birth
+                      {t.minorDob}
                     </label>
                     <input
                       id="minorDob"
@@ -411,7 +397,7 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
               disabled={submitting || !agreed || !watchedVideo}
               className="bg-green-700 text-white px-8 py-3 rounded-full font-semibold hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {submitting ? "Submitting..." : "Submit Reservation"}
+              {submitting ? t.submitting : t.submit}
             </button>
           </div>
         </form>
