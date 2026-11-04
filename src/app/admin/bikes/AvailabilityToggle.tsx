@@ -5,31 +5,36 @@ import { useRouter } from "next/navigation";
 
 export default function AvailabilityToggle({
   id,
-  available,
+  available: initial,
 }: {
   id: string;
   available: boolean;
 }) {
   const router = useRouter();
+  const [available, setAvailable] = useState(initial);
   const [working, setWorking] = useState(false);
   const [error, setError] = useState("");
 
   const toggle = async () => {
+    const next = !available;
     setError("");
+    setAvailable(next);
     setWorking(true);
     try {
       const res = await fetch(`/api/admin/bikes/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ available: !available }),
+        body: JSON.stringify({ available: next }),
       });
       if (res.ok) {
         router.refresh();
       } else {
         const data = await res.json().catch(() => ({}));
+        setAvailable(!next);
         setError(data.error || "Failed.");
       }
     } catch {
+      setAvailable(!next);
       setError("Network error.");
     }
     setWorking(false);
@@ -44,7 +49,7 @@ export default function AvailabilityToggle({
         onClick={toggle}
         disabled={working}
         title={available ? "Click to mark unavailable" : "Click to mark available"}
-        className="inline-flex items-center gap-2 disabled:opacity-50"
+        className="inline-flex items-center gap-2"
       >
         <span
           className={`relative inline-block w-10 h-6 rounded-full transition-colors ${
@@ -58,7 +63,7 @@ export default function AvailabilityToggle({
           />
         </span>
         <span className={`text-xs font-medium w-20 text-left ${available ? "text-green-800" : "text-gray-500"}`}>
-          {working ? "Saving..." : available ? "Available" : "Unavailable"}
+          {available ? "Available" : "Unavailable"}
         </span>
       </button>
       {error && <p className="text-xs text-red-600 mt-1">{error}</p>}
