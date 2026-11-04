@@ -38,16 +38,28 @@ export default function AvailabilityToggle({
   return (
     <div className="shrink-0 text-right">
       <button
+        type="button"
+        role="switch"
+        aria-checked={available}
         onClick={toggle}
         disabled={working}
-        title="Click to toggle"
-        className={`px-3 py-1 rounded-full text-xs font-medium transition-colors disabled:opacity-50 ${
-          available
-            ? "bg-green-100 text-green-800 hover:bg-green-200"
-            : "bg-red-100 text-red-800 hover:bg-red-200"
-        }`}
+        title={available ? "Click to mark unavailable" : "Click to mark available"}
+        className="inline-flex items-center gap-2 disabled:opacity-50"
       >
-        {working ? "..." : available ? "Available" : "Unavailable"}
+        <span
+          className={`relative inline-block w-10 h-6 rounded-full transition-colors ${
+            available ? "bg-green-600" : "bg-gray-300"
+          }`}
+        >
+          <span
+            className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+              available ? "translate-x-4" : ""
+            }`}
+          />
+        </span>
+        <span className={`text-xs font-medium w-20 text-left ${available ? "text-green-800" : "text-gray-500"}`}>
+          {working ? "Saving..." : available ? "Available" : "Unavailable"}
+        </span>
       </button>
       {error && <p className="text-xs text-red-600 mt-1">{error}</p>}
     </div>
