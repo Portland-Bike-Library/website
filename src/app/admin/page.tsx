@@ -94,6 +94,10 @@ function ReservationRow({ r }: { r: Reservation }) {
             <span className="text-gray-500">Signed at:</span>{" "}
             {formatDateTime(r.waiver_signed_at)}
           </p>
+          <p>
+            <span className="text-gray-500">Safety video:</span>{" "}
+            {r.safety_video_confirmed_at ? `confirmed ${formatDateTime(r.safety_video_confirmed_at)}` : "not confirmed"}
+          </p>
           {r.waiver_ip && (
             <p>
               <span className="text-gray-500">IP:</span> {r.waiver_ip}

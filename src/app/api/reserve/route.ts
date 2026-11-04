@@ -30,11 +30,19 @@ export async function POST(request: NextRequest) {
       signature,
       minor,
       agreed,
+      watchedVideo,
     } = body ?? {};
 
     if (agreed !== true) {
       return NextResponse.json(
         { error: "You must agree to the waiver to submit a reservation." },
+        { status: 400 }
+      );
+    }
+
+    if (watchedVideo !== true) {
+      return NextResponse.json(
+        { error: "Please watch the safety video on the Learn page before reserving." },
         { status: 400 }
       );
     }
@@ -122,6 +130,7 @@ export async function POST(request: NextRequest) {
         waiver_signature: signature.trim(),
         waiver_ip: ip,
         waiver_user_agent: userAgent,
+        safety_video_confirmed_at: new Date().toISOString(),
         status: "pending",
       })
       .select("id")

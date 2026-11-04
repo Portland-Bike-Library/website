@@ -22,6 +22,7 @@ export interface Reservation {
   waiver_signed_at: string;
   waiver_ip: string | null;
   waiver_user_agent: string | null;
+  safety_video_confirmed_at: string | null;
   status: ReservationStatus;
   admin_notes: string | null;
   created_at: string;

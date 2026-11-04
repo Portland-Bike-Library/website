@@ -1,4 +1,5 @@
 import Link from "next/link";
+import SafetyVideos from "@/components/SafetyVideos";
 
 export default function LearnPage() {
   return (
@@ -13,21 +14,49 @@ export default function LearnPage() {
       </section>
 
       {/* Video Section */}
-      <section className="max-w-4xl mx-auto px-4 mb-8">
-        <div className="bg-gray-900 rounded-lg overflow-hidden shadow-lg">
-          <div className="aspect-video flex items-center justify-center bg-gray-800">
-            <div className="text-center text-white p-8">
-              <div className="text-6xl mb-4">&#127909;</div>
-              <p className="text-xl font-semibold mb-2">Safety Orientation Video</p>
-              <p className="text-gray-400 mb-4">
-                Video coming soon! In the meantime, please review the safety tips below.
-              </p>
-            </div>
+      <section className="max-w-4xl mx-auto px-4 mb-12">
+        <SafetyVideos />
+      </section>
+
+      {/* E-bike basics */}
+      <section className="max-w-4xl mx-auto px-4 mb-12">
+        <h2 className="text-3xl font-bold text-gray-800 mb-2 text-center">E-Bike Basics</h2>
+        <p className="text-gray-600 text-center mb-8">
+          Most of our bikes are electric cargo bikes. A few things the videos above don&apos;t cover.
+        </p>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">Pedal assist and throttle</h3>
+            <p className="text-gray-600">
+              Our e-bikes are Class II or Class III: the motor helps up to 20 mph (Class II also has
+              a throttle). Start in the lowest assist level until you&apos;re comfortable. The bike is
+              heavier than you expect, so brake earlier than you would on a regular bike.
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">Battery and charging</h3>
+            <p className="text-gray-600">
+              Charge indoors with the charger we give you, never in direct sun or below freezing.
+              Remove the battery and take it with you whenever the bike is parked outside. Charge to
+              full before returning the bike.
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">Locking up</h3>
+            <p className="text-gray-600">
+              Always lock the frame (not just a wheel) to a fixed object with the lock we provide.
+              Store the bike indoors or in a locked garage overnight. These bikes are a theft target.
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">Carrying kids and cargo</h3>
+            <p className="text-gray-600">
+              Load the bike while holding it steady on its kickstand, kids last on and first off.
+              Everyone on the bike wears a helmet. Practice with a load in an empty lot before your
+              first real trip.
+            </p>
           </div>
         </div>
-        <p className="text-sm text-gray-500 mt-4 text-center">
-          This video covers essential bike safety, traffic rules, and how to care for your borrowed bike.
-        </p>
       </section>
 
       {/* Safety Tips */}

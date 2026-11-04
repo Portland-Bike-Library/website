@@ -15,6 +15,7 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
   const [printedName, setPrintedName] = useState("");
   const [signature, setSignature] = useState("");
   const [agreed, setAgreed] = useState(false);
+  const [watchedVideo, setWatchedVideo] = useState(false);
   const [includeMinor, setIncludeMinor] = useState(false);
   const [minorName, setMinorName] = useState("");
   const [minorDob, setMinorDob] = useState("");
@@ -26,6 +27,10 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
     e.preventDefault();
     setError("");
 
+    if (!watchedVideo) {
+      setError("Please watch the safety video on the Learn page before reserving.");
+      return;
+    }
     if (!agreed) {
       setError("You must agree to the waiver to submit a reservation.");
       return;
@@ -76,6 +81,7 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
           printedName: printedName.trim(),
           signature: signature.trim(),
           agreed: true,
+          watchedVideo: true,
           minor: includeMinor
             ? { name: minorName.trim(), dateOfBirth: minorDob }
             : undefined,
@@ -173,6 +179,30 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
+          {/* Safety video */}
+          <section className="bg-white rounded-lg shadow-md p-6">
+            <h2 className="text-xl font-semibold text-gray-800 mb-2">Safety Orientation</h2>
+            <p className="text-sm text-gray-600 mb-4">
+              Every borrower watches our short safety video before their first loan. It&apos;s on
+              the{" "}
+              <Link href="/learn" target="_blank" className="text-green-700 underline">
+                Learn page
+              </Link>{" "}
+              (opens in a new tab).
+            </p>
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={watchedVideo}
+                onChange={(e) => setWatchedVideo(e.target.checked)}
+                className="mt-1 rounded border-gray-300 text-green-600 focus:ring-green-500"
+              />
+              <span className="text-gray-700 text-sm">
+                I have watched the safety orientation video and reviewed the e-bike basics.
+              </span>
+            </label>
+          </section>
+
           {/* Borrower */}
           <section className="bg-white rounded-lg shadow-md p-6">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Your Info</h2>
@@ -378,7 +408,7 @@ export default function ReserveForm({ bike }: { bike: Bike }) {
           <div className="flex justify-end">
             <button
               type="submit"
-              disabled={submitting || !agreed}
+              disabled={submitting || !agreed || !watchedVideo}
               className="bg-green-700 text-white px-8 py-3 rounded-full font-semibold hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {submitting ? "Submitting..." : "Submit Reservation"}
