@@ -31,11 +31,6 @@ const todos: Item[] = [
     note: "Split user/traits from reservations in Supabase.",
     examples: [],
   },
-  {
-    title: "English vs. Spanish toggle",
-    note: "Site-wide language switch.",
-    examples: [],
-  },
 ];
 
 const backlog: Item[] = [
