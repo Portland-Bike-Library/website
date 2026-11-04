@@ -8,6 +8,8 @@ import type { Bike } from "@/lib/types";
 const INPUT =
   "w-full px-4 py-2 border-2 border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500";
 const LABEL = "block text-sm font-medium text-gray-700 mb-1";
+const BIKE_TYPES = ["Cargo E-Bike", "Utility E-Bike", "Kids Bike", "Adult Bike"];
+const OTHER = "__other__";
 
 function slugify(s: string): string {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
@@ -22,6 +24,7 @@ export default function BikeForm({ bike }: { bike?: Bike }) {
   const [id, setId] = useState(bike?.id ?? "");
   const [idTouched, setIdTouched] = useState(isEdit);
   const [type, setType] = useState(bike?.type ?? "");
+  const [typeIsOther, setTypeIsOther] = useState(Boolean(bike?.type) && !BIKE_TYPES.includes(bike!.type));
   const [size, setSize] = useState(bike?.size ?? "");
   const [description, setDescription] = useState(bike?.description ?? "");
   const [image, setImage] = useState(bike?.image ?? "");
@@ -150,13 +153,33 @@ export default function BikeForm({ bike }: { bike?: Bike }) {
             </div>
             <div>
               <label htmlFor="type" className={LABEL}>Type</label>
-              <input id="type" required list="bike-types" value={type} onChange={(e) => setType(e.target.value)} className={INPUT} placeholder="Cargo E-Bike" />
-              <datalist id="bike-types">
-                <option value="Cargo E-Bike" />
-                <option value="Utility E-Bike" />
-                <option value="Kids Bike" />
-                <option value="Adult Bike" />
-              </datalist>
+              <select
+                id="type"
+                required={!typeIsOther}
+                value={typeIsOther ? OTHER : type}
+                onChange={(e) => {
+                  if (e.target.value === OTHER) { setTypeIsOther(true); setType(""); }
+                  else { setTypeIsOther(false); setType(e.target.value); }
+                }}
+                className={`${INPUT} bg-white`}
+              >
+                <option value="" disabled>Select a type</option>
+                {BIKE_TYPES.map((t) => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
+                <option value={OTHER}>Other...</option>
+              </select>
+              {typeIsOther && (
+                <input
+                  id="type-other"
+                  required
+                  autoFocus
+                  value={type}
+                  onChange={(e) => setType(e.target.value)}
+                  className={`${INPUT} mt-2`}
+                  placeholder="Enter a type"
+                />
+              )}
             </div>
             <div>
               <label htmlFor="size" className={LABEL}>Size / fit</label>
